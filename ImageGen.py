@@ -248,7 +248,7 @@ if __name__ == "__main__":
     bwrgb = [[0,0,255], [0,255,0], [255,0,0], [255,255,255], [0,0,0]]
     bw = [[0,0,0],[255,255,255]]
 
-    my_colour_space = stary
+    my_colour_space = bwrgb
 
     n = len(sys.argv)
     path = ""
