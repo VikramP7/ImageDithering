@@ -305,6 +305,9 @@ if __name__ == "__main__":
         ditheredImage, BWImage = ReturnDitheredImage(path, width, height, colour=colour, colour_space=my_colour_space, returnNoDitherToo=True)
         saveImage(ditheredImage, savePath+"_Dithered.png", colour=colour)
         saveImage(BWImage, savePath+"_NoDither.png", colour=colour)
+        print(f"Image Saved: {savePath+"_Dithered.png"}")
+        print(f"Image Saved: {savePath+"_NoDither.png"}")
     else:
         ditheredImage = ReturnDitheredImage(path, width, height, colour=colour, colour_space=my_colour_space, returnNoDitherToo=False)
         saveImage(ditheredImage, savePath+"_Dithered.png", colour=colour)
+        print(f"Image Saved: {savePath+"_Dithered.png"}")
