@@ -45,6 +45,8 @@ def ReturnImageColourSpace(path, space_size=5):
 
     colours.append(imgArr[0][0])
 
+    # this loop just reduces the total important colours by grouping similar colours
+    # if colours have a distance less than 10 apart they are considered the same
     for y in range(0, imageHeight, 10):
         print(round(y*100/imageHeight), end="%                \r")
         for x in range(0, imageWidth, 10):
@@ -53,11 +55,12 @@ def ReturnImageColourSpace(path, space_size=5):
             while cur_colour < len(colours):
                 if FindColourDistance(imgArr[y][x], colours[cur_colour]) < 10:
                     close_enough = True
-                    cur_colour = len(colours)
+                    cur_colour = len(colours) # end while loop
                 cur_colour += 1
             if not close_enough:
                 colours.append(imgArr[y][x])
 
+    # now we have found the actually distinct colours in the image mix toget till we have the right colour space
     original_len = len(colours)
     while(len(colours)>space_size):
         # find closest colour
@@ -73,8 +76,8 @@ def ReturnImageColourSpace(path, space_size=5):
                     distance = cur_dist
         closests_ave = []
         for rgb in range(3):
-            closests_ave.append(colours[closest2][rgb])
-            #closests_ave.append((colours[closest1][rgb]+colours[closest2][rgb])/2)
+            #closests_ave.append(colours[closest2][rgb])
+            closests_ave.append((colours[closest1][rgb]+colours[closest2][rgb])/2)
         
         for rgb in range(3):
             colours[closest1][rgb] = closests_ave[rgb]
@@ -83,10 +86,40 @@ def ReturnImageColourSpace(path, space_size=5):
         print(len(colours), end=" | ")
         print(round((original_len-len(colours)-space_size)*100/original_len), end="%                    \r")
     
+    # round all colours to integers and find inverted
+    inverted_colours = []
     for i in range(len(colours)):
         for rgb in range(3):
             colours[i][rgb]=round(colours[i][rgb])
+        inverted_colours.append([abs(255-colours[i][rgb]) for rgb in range(3)])
     
+    arr_str = ReturnColourSpaceArrayStr(colours)
+    inverted_arr_str = ReturnColourSpaceArrayStr(inverted_colours)
+
+    print("COLOUR SPACE FROM IMAGE:")
+    print(arr_str)
+
+    link="https://coolors.co/"
+    for colour in colours:
+        for rgb in range(3):
+            link += IntTo2DigitHex(colour[rgb])
+        link += "-"
+    print(link[:-1])
+
+    print("\nINVERTEDCOLOUR SPACE FROM IMAGE:")
+    print(inverted_arr_str)
+
+    link="https://coolors.co/"
+    for inv_colour in inverted_colours:
+        for rgb in range(3):
+            link += IntTo2DigitHex(inv_colour[rgb])
+        link += "-"
+    print(link[:-1])
+
+    return colours
+
+# gives you the [[231, 194, 167],[155, 145, 138],[137, 62, 30],[36, 20, 17],[210, 162, 55]] str
+def ReturnColourSpaceArrayStr(colours):
     arr_str = "["
     for colour in colours:
         arr_str += '['
@@ -97,16 +130,8 @@ def ReturnImageColourSpace(path, space_size=5):
         arr_str += '],'
     arr_str = arr_str[:-1]
     arr_str += ']'
-    print(arr_str)
+    return arr_str
 
-    link="https://coolors.co/"
-    for colour in colours:
-        for rgb in range(3):
-            link += IntTo2DigitHex(colour[rgb])
-        link += "-"
-    print(link[:-1])
-
-    return colours
 
 def IntTo2DigitHex(val):
     text = hex(val)[2:]
