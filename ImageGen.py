@@ -173,6 +173,7 @@ def ReturnDitheredImage(path, width=-1, height=-1, colour=False, colour_space=No
 
     maxQError = 200
     #maxQError = 150
+    #maxQError = 20
 
     # Dithering Algorithm:
     for y in range(0, height - zeroOffset):
@@ -242,6 +243,10 @@ if __name__ == "__main__":
     blueOrange =[[0x39, 0x00, 0x99], [0x9e, 0x00, 0x59], [0xff, 0x00, 0x54], [0xff, 0x54, 0x00], [0xff, 0xbd, 0x00]]
     tanPurple =[[249, 219, 189], [252, 161, 125], [218, 98, 125], [154, 52, 142], [13, 6, 40]]
     pearl = [[25, 20, 10],[72, 76, 74],[180, 171, 159],[236, 226, 200],[108, 129, 155]]
+    sonofman = [[231, 194, 167],[155, 145, 138],[137, 62, 30],[36, 20, 17],[210, 162, 55]]
+    sonofmaninv = [[24, 61, 88],[100, 110, 117],[118, 193, 225],[219, 235, 238],[45, 93, 200]]
+    pan = [[79, 79, 92],[237, 224, 215],[146, 107, 102],[190, 172, 170],[47, 27, 28]]
+    paninv = [[176, 176, 163],[18, 31, 40],[109, 148, 153],[65, 83, 85],[208, 228, 227]]
     ljb = [[120, 137, 31],[149, 150, 181],[193, 250, 255],[86, 83, 138],[231, 226, 126]]
     ljb2 = [[226, 232, 218],[143, 168, 195],[60, 75, 42],[156, 132, 85],[213, 226, 120]]
     stary = [[47, 21, 22],[66, 96, 184],[225, 230, 148],[152, 124, 0],[189, 152, 84]]
@@ -250,7 +255,7 @@ if __name__ == "__main__":
     bwrgb = [[0,0,255], [0,255,0], [255,0,0], [255,255,255], [0,0,0]]
     bw = [[0,0,0],[255,255,255]]
 
-    my_colour_space = green
+    my_colour_space = tanPurple
 
     n = len(sys.argv)
     path = ""
@@ -260,13 +265,14 @@ if __name__ == "__main__":
     colour = False
     if n == 2:
         path = str(sys.argv[1])
-        if path.lower().find("help") != -1:
+        help = (path.lower().find("help") != -1) or (path.lower().find("-h") != -1)
+        if help:
             printHelpMessage()
             sys.exit(0)
         width = -1
         height = -1
-        BWToo = False
-        colour = False
+        BWToo = True
+        colour = True
     elif n ==3:
         path = sys.argv[1]
         width = -1
