@@ -228,7 +228,7 @@ def printHelpMessage():
     #print("Error With width-height arguments")
     print("Please use \"ImageGen.py [path] [width] [height] [inColour] [saveNonDithered]\"")
     print("Or use \"ImageGen.py [path]\" for default parameters")
-    print("[path]: string to image including extension\n[width/height]: number of pixels (integers)\n[inColour/saveNonDithered]: 1 or 0")
+    print("[path]: string to image including extension\n[width/height]: number of pixels, -1 for original\n[inColour/saveNonDithered]: 1 or 0")
 
 
 
